@@ -2,6 +2,9 @@
 
 The Restaurant Management System is a RESTful API project designed to streamline the management operations of a restaurant. This API provides functionalities to manage various aspects of restaurant operations, including handling tables, orders, payments, customers, staffs, inventory management and more.
 
+![RMS-ERD](https://github.com/Sudip-T/RMS_restAPI/assets/101195459/3b1686d8-dce5-4e4c-9d83-293fb24c14c9)
+
+
 ## Table of Contents
 - Introduction
 - Features
