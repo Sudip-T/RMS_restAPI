@@ -9,6 +9,7 @@ The Restaurant Management System is a RESTful API project designed to streamline
   - Prerequisites
   - Installation
 - Usage
+- Contributing
 
 
 ## Features
@@ -39,3 +40,7 @@ The Restaurant Management System is a RESTful API project designed to streamline
     pip install -r requirements.txt
 3. Apply migrations
 4. Run the development server
+
+
+## Contributing
+Contributions are welcome! If you have ideas for improvements, feature requests, or bug reports, feel free to open an issue or submit a pull request.
