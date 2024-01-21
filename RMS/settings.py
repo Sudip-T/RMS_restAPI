@@ -93,23 +93,23 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         'ENGINE':'django.db.backends.postgresql',
-#         'NAME':os.environ.get('DATA_BASE'),
-#         'USER':os.environ.get('USER'),
-#         'PASSWORD':os.environ.get('PASSWORD'),
-#         'HOST':'localhost',
-#         'PORT':os.environ.get('PORT')
-#     }
-# }
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        'ENGINE':'django.db.backends.postgresql',
+        'NAME':os.environ.get('DATA_BASE'),
+        'USER':os.environ.get('USER'),
+        'PASSWORD':os.environ.get('PASSWORD'),
+        'HOST':'localhost',
+        'PORT':os.environ.get('PORT')
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -152,6 +152,14 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+EMAIL_USE_TLS = True
 
 
 CORS_ALLOW_ALL_ORIGINS = False
