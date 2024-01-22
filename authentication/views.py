@@ -6,7 +6,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import generics
-from .models import CustomUser
 
 
 # Generate Token Manually
@@ -58,7 +57,19 @@ class ChangePasswordView(generics.UpdateAPIView):
 class SendPasswordResetEmailView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+
     def post(self, request):
         serializer = SendPasswordResetEmailSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
         return Response({'msg':'An email has been sent for password reset'}, status=status.HTTP_200_OK)
+    
+
+
+class PasswordResetView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, uid, token, format=None):
+        serializer = PasswordResetSerializer(data=request.data, context={'uid':uid, 'token':token})
+        serializer.is_valid(raise_exception=True)
+        return Response({'msg': 'password reset successfull'}, status=status.HTTP_200_OK)
