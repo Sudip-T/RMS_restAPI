@@ -1,5 +1,5 @@
 from rest_framework import status
-from .serializers import UserRegisterSerializer,ChangePasswordSerializer
+from .serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -18,6 +18,7 @@ def get_tokens_for_user(user):
   }
 
 
+
 class RegisterUserView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -30,6 +31,7 @@ class RegisterUserView(APIView):
         return Response({'msg':'Registration Successful','token':token}, status=status.HTTP_201_CREATED)
     
 
+
 class UserProfileView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -37,32 +39,8 @@ class UserProfileView(APIView):
     def get(self, request):
         serializer = UserRegisterSerializer(request.user)
         return Response({'msg':'user info', 'data':serializer.data}, status=status.HTTP_200_OK)
-    
 
 
-# class ChangePasswordView(APIView):
-#     authentication_classes = [JWTAuthentication]
-#     permission_classes = [IsAuthenticated]
-
-#     def post(self, request, format=None):
-#         serializer = ChangePasswordSerializer(data=request.data)
-#         if serializer.is_valid():
-#             old_password = serializer.validated_data['old_password']
-#             new_password = serializer.validated_data['new_password']
-#             new_password2 = serializer.validated_data['new_password2']
-#             user = request.user
-
-#             if not user.check_password(old_password):
-#                 return Response({"detail": "Old password is incorrect."}, status=status.HTTP_400_BAD_REQUEST)
-
-#             if new_password != new_password2:
-#                 return Response({"detail": "New password and Confirm password don't match."}, status=status.HTTP_400_BAD_REQUEST)
-
-#             user.set_password(new_password)
-#             user.save()
-#             return Response({"detail": "Password changed successfully."}, status=status.HTTP_200_OK)
-
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ChangePasswordView(generics.UpdateAPIView):
     authentication_classes = [JWTAuthentication]
@@ -74,3 +52,13 @@ class ChangePasswordView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"detail": "Password changed successfully."}, status=status.HTTP_200_OK)
+    
+
+
+class SendPasswordResetEmailView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        serializer = SendPasswordResetEmailSerializer(data = request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response({'msg':'An email has been sent for password reset'}, status=status.HTTP_200_OK)

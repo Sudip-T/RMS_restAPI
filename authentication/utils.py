@@ -1,8 +1,9 @@
 import random
 from .models import CustomUser
-# from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage
 from django.core.mail import send_mail
 from django.conf import settings
+import os
 
 
 def generate_otp():
@@ -27,3 +28,15 @@ def send_otp(email):
 
     # email_data = EmailMessage(subject=subject, body=email_body, from_email=from_email, to=[email])
     # email_data.send()
+
+
+class Util:
+    @staticmethod
+    def send_email(data):
+        email = EmailMessage(
+            subject=data['subject'],
+            body=data['body'],
+            from_email=os.environ.get('DEFAULT_FROM_EMAIL'),
+            to=[data['to_email']]
+        )
+        email.send()
