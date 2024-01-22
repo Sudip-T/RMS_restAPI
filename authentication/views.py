@@ -1,11 +1,12 @@
-from rest_framework import status
 from .serializers import *
+from rest_framework import status
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import generics
+from rest_framework.permissions import AllowAny
 
 
 # Generate Token Manually
@@ -19,8 +20,8 @@ def get_tokens_for_user(user):
 
 
 class RegisterUserView(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    authentication_classes = []
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = UserRegisterSerializer(data=request.data)
