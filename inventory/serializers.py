@@ -2,55 +2,55 @@ from rest_framework import serializers
 from .models import *
 
 
-class Serializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
 
 
-class Serializer(serializers.ModelSerializer):
+class SupplierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Supplier
         fields = '__all__'
 
 
-class Serializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
 
 
-class Serializer(serializers.ModelSerializer):
+class PurchaseOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = PurchaseOrder
         fields = '__all__'
 
 
-class Serializer(serializers.ModelSerializer):
+class PurchaseOrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = PurchaseOrderItem
         fields = '__all__'
 
 
-class Serializer(serializers.ModelSerializer):
+class PurchaseReturnSerializer(serializers.ModelSerializer):
     class Meta:
         model = PurchaseReturn
         fields = '__all__'
 
 
-class Serializer(serializers.ModelSerializer):
+class PurchaseReturnItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = PurchaseReturnItem
         fields = '__all__'
 
 
-class Serializer(serializers.ModelSerializer):
+class StoreRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreRequest
         fields = '__all__'
 
 
-class Serializer(serializers.ModelSerializer):
+class StoreRequestItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreRequestItem
         fields = '__all__'
