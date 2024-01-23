@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
 
     "authentication",
-    "employee"
+    "employee",
+    "inventory"
 ]
 
 MIDDLEWARE = [
