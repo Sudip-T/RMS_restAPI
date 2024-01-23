@@ -3,7 +3,7 @@ from employee.models import Employee
 
 
 class Supplier(models.Model):
-    name = models.CharField(max_lenght=100)
+    name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100, unique=True)
     phone_number = models.CharField(max_length=10)
     address = models.TextField()
@@ -13,7 +13,7 @@ class Supplier(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_lenght=100)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -23,15 +23,15 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     stock_quantity = models.PositiveIntegerField()
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='products')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True,related_name='products')
 
     def __str__(self):
         return self.name
     
 
 class PurchaseOrder(models.Model):
-    Supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, related_name='purchase_order')
-    purchase_item = models.ForeignKey('PurchaseOrderItem', on_delete=models.SET_NULL)
+    Supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, related_name='purchase_order')
+    purchase_item = models.ForeignKey('PurchaseOrderItem', on_delete=models.CASCADE)
     purchase_note = models.TextField(blank=True, null=True)
     subtotal = models.DecimalField(max_digits=20,decimal_places=2)
     discount = models.DecimalField(max_digits=20,decimal_places=2)
@@ -45,7 +45,7 @@ class PurchaseOrder(models.Model):
 
 class PurchaseOrderItem(models.Model):
     purchase_order = models.ForeignKey(PurchaseOrder, models.CASCADE, related_name='PurchaseOrderItem')
-    purchase_item = models.ForeignKey(Product, on_delete=models.SET_NULL, related_name='PurchaseOrderItem')
+    purchase_item = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='PurchaseOrderItem')
     unit_price = models.DecimalField(max_digits=20, decimal_places=2)
     purchase_quantity = models.PositiveIntegerField()
     purchase_item_total = models.DecimalField(max_digits=20, decimal_places=2)
@@ -55,13 +55,13 @@ class PurchaseOrderItem(models.Model):
     
 
 class StoreRequest(models.Model):
-    requested_products = models.ForeignKey('StoreRequestItem', on_delete=models.SET_NULL)
-    requested_by = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='StoreRequest')
+    requested_products = models.ForeignKey('StoreRequestItem', on_delete=models.CASCADE)
     store_request_status = models.BooleanField(default=False)
     is_collected = models.BooleanField(default=False)
-    collected_by = models.ForeignKey(Employee, on_delete=models.SET_NULL, related_name='StoreRequest')
-    requested_date = models.DateTimeField(auto_now_add=True)
     collection_date = models.DateTimeField(auto_now=True)
+    requested_date = models.DateTimeField(auto_now_add=True)
+    collected_by = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='collected_store_requests')
+    requested_by = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='requested_store_requests')
 
     def __str__(self):
         return
@@ -77,7 +77,7 @@ class StoreRequestItem(models.Model):
 
 class PurchaseReturn(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, related_name='purchase_return')
-    returned_items = models.ForeignKey('PurchaseReturnItem',on_delete=models.SET_NULL)
+    returned_items = models.ForeignKey('PurchaseReturnItem',on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
     collectedby_supplier = models.BooleanField(default=False)
     collection_date = models.DateTimeField(auto_now=True)
