@@ -4,7 +4,7 @@ from .models import *
 
 admin.site.register(Category)
 admin.site.register(Supplier)
-admin.site.register(Product)
+admin.site.register(StockItem)
 admin.site.register(PurchaseOrder)
 admin.site.register(PurchaseOrderItem)
 admin.site.register(PurchaseReturn)

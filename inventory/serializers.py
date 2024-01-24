@@ -14,10 +14,15 @@ class SupplierSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class StockItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = StockItem
         fields = '__all__'
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     if self.context['request'].method in ['GET', 'LIST']:
+    #         self.fields['category'] = CategorySerializer()
 
 
 class PurchaseOrderSerializer(serializers.ModelSerializer):
@@ -36,11 +41,43 @@ class PurchaseReturnSerializer(serializers.ModelSerializer):
     class Meta:
         model = PurchaseReturn
         fields = '__all__'
+    
+    def create(self, validated_data):
+        returned_items = validated_data.get('returned_items')
+        data_list = []
+        for i in returned_items:
+            print(i)
+        return super().create(validated_data)
 
 
 class PurchaseReturnItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = PurchaseReturnItem
+        fields = '__all__'
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.context['request'].method in ['GET', 'LIST']:
+            self.fields['purchase_item'] = PurchaseOrderItemSerializer()
+
+
+class GetStoreRequestItemSerializer(serializers.ModelSerializer):
+    requested_item = StockItemSerializer()
+    class Meta:
+        model = StoreRequestItem
+        fields = '__all__'
+
+
+class StoreRequestItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoreRequestItem
+        fields = '__all__'
+
+
+class GetStoreRequestSerializer(serializers.ModelSerializer):
+    requested_products = GetStoreRequestItemSerializer(many=True)
+    class Meta:
+        model = StoreRequest
         fields = '__all__'
 
 
@@ -49,8 +86,3 @@ class StoreRequestSerializer(serializers.ModelSerializer):
         model = StoreRequest
         fields = '__all__'
 
-
-class StoreRequestItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = StoreRequestItem
-        fields = '__all__'

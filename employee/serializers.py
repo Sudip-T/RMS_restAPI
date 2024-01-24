@@ -20,6 +20,8 @@ class EmployeeSerializers(serializers.ModelSerializer):
         last_name = validated_data.get('last_name')
         email = validated_data.get('email')
         password = 'admin@!123'
+        if CustomUser.objects.filter(email=email).exists():
+            raise serializers.ValidationError('Duplicate email...')
         user = CustomUser.objects.create(email=email, first_name=first_name,last_name=last_name)
         user.set_password(password)
         user.save()
