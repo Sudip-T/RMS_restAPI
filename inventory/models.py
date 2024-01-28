@@ -55,16 +55,21 @@ class PurchaseOrderItem(models.Model):
     
 
 class StoreRequest(models.Model):
-    requested_products = models.ManyToManyField('StoreRequestItem')
-    store_request_status = models.CharField(default='New', max_length=20)
+    STATUS = [
+        ('New','New'),
+        ('Approved','Approved')
+    ]
+    store_request_status = models.CharField(choices=STATUS, default='New', max_length=20)
     is_collected = models.BooleanField(default=False)
     collection_date = models.DateTimeField(blank=True, null=True)
     requested_date = models.DateTimeField(auto_now_add=True)
     collected_by = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='store_collected_by', blank=True, null=True)
     requested_by = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='store_requestedby')
 
-    # def __str__(self):
-    #     return
+    # todo : when store_request_status == 'Approved', update stock quantity automatically
+
+    def __str__(self):
+        return str(self.id)
 
     def save(self, *args, **kwargs):
         if self.collection_date and self.collected_by:
@@ -73,6 +78,7 @@ class StoreRequest(models.Model):
     
 
 class StoreRequestItem(models.Model):
+    store_request = models.ForeignKey(StoreRequest,on_delete=models.CASCADE, related_name='StoreRequestItem')
     requested_item = models.ForeignKey(StockItem, on_delete=models.CASCADE, related_name='store_reuqest_item')
     requested_quantity = models.PositiveIntegerField()
 

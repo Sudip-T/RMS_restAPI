@@ -74,15 +74,15 @@ class StoreRequestItemSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GetStoreRequestSerializer(serializers.ModelSerializer):
-    requested_products = GetStoreRequestItemSerializer(many=True)
-    class Meta:
-        model = StoreRequest
-        fields = '__all__'
-
-
 class StoreRequestSerializer(serializers.ModelSerializer):
+    store_request_items = StoreRequestItemSerializer(many=True, read_only=True, source='StoreRequestItem')
     class Meta:
         model = StoreRequest
         fields = '__all__'
+
+
+# class StoreRequestSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = StoreRequest
+#         fields = '__all__'
 
